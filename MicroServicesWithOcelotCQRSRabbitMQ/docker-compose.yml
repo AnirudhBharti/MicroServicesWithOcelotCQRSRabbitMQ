@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  catalogdb:
+    image: mongo
+  catalog.api:
+    image: ${DOCKER_REGISTRY-}catalogapi
+    build:
+      context: .
+      dockerfile: Src/Services/Catalog.API/Dockerfile
+  
+  basketdb:
+    image: redis:alpine
+  basket.api:
+    image: ${DOCKER_REGISTRY-}basketapi
+    build:
+      context: .
+      dockerfile: Src/Services/Basket.API/Dockerfile
+
+  pgadmin:
+    image: dpage/pgadmin4  
+  discountdb:
+    image: postgres
+  discount.api:
+    image: ${DOCKER_REGISTRY-}discountapi
+    build:
+      context: .
+      dockerfile: Src/Services/Discount.API/Dockerfile
+
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
+    build:
+      context: .
+      dockerfile: Src/ApiGateways/OcelotApiGw/Dockerfile
+
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+  ordering.api:
+    image: ${DOCKER_REGISTRY-}orderingapi
+    build:
+      context: .
+      dockerfile: Ordering.API/Dockerfile
+  
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
